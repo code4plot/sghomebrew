@@ -1,0 +1,7 @@
+colname,description
+klid,Kegland product unique ID
+mediumqty,medium price break quantity
+largeqty,large price break quantity
+largeprice,large price break in USD
+mediumprice,medium price break in USD
+smallprice,small price break in USD

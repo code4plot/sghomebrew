@@ -1,0 +1,9 @@
+colname,colrename,description
+KegLand Part Number,klid,Kegland product unique ID
+Product Name,name,name of kegland product
+Units Per Outter Carton/Bag,unitspercarton,# units per carton/bag
+Medium Price Break QTY,mediumqty,medium price break quantity
+Large Price Break QTY,largeqty,large price break quantity
+FOB (shanghai) COST Large Price Break Quantity USD,largeprice,large price break in USD
+FOB (shanghai) COST Medium Price Break Quantity in USD,mediumprice,medium price break in USD
+FOB (shanghai) COST Small Price Break Quantity in USD,smallprice,small price break in USD
