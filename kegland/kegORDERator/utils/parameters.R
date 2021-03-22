@@ -13,13 +13,20 @@ response_user <- file.path("users")
 dirExist(response_user)
 
 #price list
-priceList <- read.csv("tables/priceList_test.csv", header = T, stringsAsFactors = F)
+priceList <- read_csv("tables/priceList_test.csv")
 colnames(priceList) <- c("klid","klname","Units.Per.Outter.Carton.Bag",
                          "mediumqty","largeqty","largeprice","mediumprice","smallprice")
 priceList <- dplyr::mutate(priceList, largeprice = parse_number(largeprice),
                            mediumprice = parse_number(mediumprice),
                            smallprice = parse_number(smallprice))
 
+
+# DB
+## db credentials
+db_cred <- readRDS("credentials/db_cred.RDS")
+databaseName <- "kegorderator"
+table_users <- "users"
+table_orders <- "orders"
 
 #input fields to extract order input
 fields_order <- c("name", "klid", "q")
