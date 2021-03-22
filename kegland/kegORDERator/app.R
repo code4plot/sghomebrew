@@ -31,16 +31,15 @@ server <- function(input, output, session){
     if(input$action == "new"){
       formUI(formInfo)
     } else if(input$action == "order"){
-      orderForm()
+      orderForm(input$tbl_cell_clicked)
     }
   })
   formServer(formInfo)
   formData_order <- reactive({
     data_order <- sapply(fields_order, function(x) input[[x]])
-    data_order <- bind_rows(data_order) %>% mutate(q = as.numeric(q))
+    data_order <- bind_rows(data_order) %>% mutate(q = as.integer(q))
   })
-  
-  observeEvent(input$submit, {
+  observeEvent(input$submit_order, {
     save_order(formData_order(), input$name)
   })
   output$tbl <- DT::renderDataTable({
@@ -50,7 +49,7 @@ server <- function(input, output, session){
     }
   })
   order_df <- reactive({
-    input$submit
+    input$submit_order
     get_csv_order(input$name)
   })
   output$tbl_myorder <- DT::renderDataTable({
