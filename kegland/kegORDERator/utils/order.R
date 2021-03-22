@@ -1,15 +1,15 @@
 source("utils/parameters.R")
 source("utils/utils.R")
 
-orderForm <- function(){
+orderForm <- function(selected){
   usercsvList <- list.files(response_user, "*.csv", full.names = T)
   users <- dplyr::bind_rows(lapply(usercsvList, read.csv))
   return(fluidPage(
     selectInput("name","Name", choices = users$uname, multiple = F),
-    fluidRow(column(width = 8, selectInput("klid", "Item", choices = priceList$klid, multiple = F)),
+    fluidRow(column(width = 8, selectInput("klid", "Item", selected = selected, choices = priceList$klid, multiple = F)),
                 column(width = 4, numericInput("q", "Quantity", value = 1, min = 0, step = 1))
     ),
-    actionButton("submit", "Submit", class = "btn-primary")
+    actionButton("submit_order", "Submit", class = "btn-primary")
 ))
 }
 
