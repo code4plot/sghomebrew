@@ -21,7 +21,7 @@ saveData <- function(data, tbl){
     "INSERT INTO %s (%s) VALUES ('%s')",
     tbl,
     paste(names(data), collapse = ", "),
-    paste(data, collapse = ", ")
+    paste(data, collapse = "', '")
   )
   dbGetQuery(db, query)
   dbDisconnect(db)
@@ -38,9 +38,12 @@ loadUsers <- function(tbl = table_users){
 
 loadOrders <- function(tbl = table_orders, name){
   db <- db_connect()
-  query <- sprintf("SELECT name, klid, SUM(q) as q FROM %s
-                   WHERE name = %s
-                   GROUP BY klid", tbl, name)
+  query <- sprintf("SELECT b.name, b.klid, b.q FROM
+                  (SELECT name, klid, SUM(q) as q FROM %s
+                   WHERE name = '%s'
+                   GROUP BY klid) as b
+                   WHERE b.q > 0
+                   ", tbl, name)
   data <- dbGetQuery(db, query)
   dbDisconnect(db)
   return(data)
@@ -52,10 +55,14 @@ loadAllOrders <- function(tbl = table_orders){
                   (SELECT a.name, a.klid, SUM(a.q) as q FROM %s AS a
                    GROUP BY a.name, a.klid) AS b
                    WHERE b.q > 0
-                   GROUP BY b.klid")
+                   GROUP BY b.klid", tbl)
   data <- dbGetQuery(db, query)
   dbDisconnect(db)
   return(data)
 }
 
+testOrder <- read_csv("tables/orders.csv")
 
+for(i in 1:nrow(testOrder)){
+  saveData(testOrder[i,],"orders")
+}
