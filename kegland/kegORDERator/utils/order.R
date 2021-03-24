@@ -2,8 +2,9 @@ source("utils/parameters.R")
 source("utils/utils.R")
 
 orderForm <- function(selected){
-  usercsvList <- list.files(response_user, "*.csv", full.names = T)
-  users <- dplyr::bind_rows(lapply(usercsvList, read.csv))
+  users <- loadUsers()
+  #usercsvList <- list.files(response_user, "*.csv", full.names = T)
+  #users <- dplyr::bind_rows(lapply(usercsvList, read.csv))
   return(fluidPage(
     selectInput("name","Name", choices = users$uname, multiple = F),
     fluidRow(column(width = 8, selectInput("klid", "Item", selected = selected, choices = priceList$klid, multiple = F)),

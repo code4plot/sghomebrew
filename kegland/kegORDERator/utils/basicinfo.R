@@ -12,3 +12,7 @@ formInfo <- list(
     path = response_user
   )
 )
+
+rds_user <- function(df, tbl = table_users){
+  saveData(df, tbl)
+}

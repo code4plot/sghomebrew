@@ -9,6 +9,12 @@ get_csvs <- function(dirName){
   return(csvs)
 }
 
+#updates orders table on RDS.
+rds_order <- function(df){
+  saveData(df, table_orders)
+}
+
+
 #updates order/name.csv file
 #df is the new order input that will be appended to existing file, otherwise a new file will be written.
 #the new order is grouped by klid to update the quantity.
@@ -28,6 +34,17 @@ csv_order <- function(fileName, df){
     write.csv(df, fileName, row.names = F)
   }
   #csv_compile_order()
+}
+
+get_individual_order <- function(name){
+  tbl <- loadOrders(name = name)
+  tbl <- dplyr::mutate(left_join(tbl,
+                                 get_sml(), by = "klid"),
+                       total = q * price,
+                       ship = q * price * ship_est,
+                       sgd = q * price * (1 + ship_est) * USDSGD) %>%
+    relocate(klname, .after = sgd)
+  return(tbl)
 }
 
 #a function to display individual order
@@ -61,7 +78,8 @@ csv_compile_order <- function(){
 #function to assign small, medium or large price break
 #on all orders by aggregating the q for each klid
 get_sml <- function(){
-  ordercsv <- get_csvs(response_order)
+  ordercsv <- loadAllOrders()
+  #ordercsv <- get_csvs(response_order)
   ordercsv <- mutate_at(ordercsv, vars(q), as.integer)
   tmp <- dplyr::transmute(select(left_join(group_by(ordercsv, klid) %>%
                                              summarise(q = sum(q)),

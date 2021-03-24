@@ -28,6 +28,9 @@ databaseName <- "kegorderator"
 table_users <- "users"
 table_orders <- "orders"
 
+#input fields to extract user input
+fields_user <- c("uname", "paynow")
+
 #input fields to extract order input
 fields_order <- c("name", "klid", "q")
 
