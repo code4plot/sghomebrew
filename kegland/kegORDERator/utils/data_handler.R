@@ -60,9 +60,3 @@ loadAllOrders <- function(tbl = table_orders){
   dbDisconnect(db)
   return(data)
 }
-
-testOrder <- read_csv("tables/orders.csv")
-
-for(i in 1:nrow(testOrder)){
-  saveData(testOrder[i,],"orders")
-}

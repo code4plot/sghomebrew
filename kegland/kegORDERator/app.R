@@ -2,11 +2,13 @@ library(shiny)
 library(tidyverse)
 library(shinyforms)
 library(DT)
+library(RMySQL)
 
 #basic info form
 source("utils/basicinfo.R")
 source("utils/order.R")
 source("utils/parameters.R")
+source("utils/data_handler.R")
 
 
 ui <- fluidPage(
@@ -39,7 +41,6 @@ server <- function(input, output, session){
     data_user <- bind_rows(data_user)
   })
   observeEvent(input[["basicinfo-submit"]], {
-    print(names(input))
     rds_user(formData_user())
     shinyjs::reset("basicinfo-form")
     shinyjs::hide("basicinfo-form")

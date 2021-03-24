@@ -1,4 +1,6 @@
 source("utils/parameters.R")
+source("utils/data_handler.R")
+
 questions <- list(
   list(id = "uname", type = "text", title = "Name", mandatory = T),
   list(id = "paynow", type = "numeric", title = "PayNow Number", mandatory = T)

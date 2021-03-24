@@ -13,12 +13,15 @@ response_user <- file.path("users")
 dirExist(response_user)
 
 #price list
-priceList <- read_csv("tables/priceList_test.csv")
-colnames(priceList) <- c("klid","klname","Units.Per.Outter.Carton.Bag",
+get_priceList <- function(){
+  priceList <- read_csv("tables/priceList_test.csv")
+  colnames(priceList) <- c("klid","klname","Units.Per.Outter.Carton.Bag",
                          "mediumqty","largeqty","largeprice","mediumprice","smallprice")
-priceList <- dplyr::mutate(priceList, largeprice = parse_number(largeprice),
+  priceList <- dplyr::mutate(priceList, largeprice = parse_number(largeprice),
                            mediumprice = parse_number(mediumprice),
                            smallprice = parse_number(smallprice))
+  return(priceList)
+}
 
 
 # DB
@@ -38,8 +41,6 @@ fields_order <- c("name", "klid", "q")
 response_order <- file.path("orders")
 dirExist(response_order)
 
-#compiled order csv file
-order_file <- file.path("tables", "orders.csv")
 
 catalog_header <- htmltools::withTags(table(
   tableHeader(c("KLID","Product Name", "Price (USD)"))

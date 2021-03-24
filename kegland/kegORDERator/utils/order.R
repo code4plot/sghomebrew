@@ -1,7 +1,9 @@
 source("utils/parameters.R")
 source("utils/utils.R")
+source("utils/data_handler.R")
 
 orderForm <- function(selected){
+  priceList <- get_priceList()
   users <- loadUsers()
   #usercsvList <- list.files(response_user, "*.csv", full.names = T)
   #users <- dplyr::bind_rows(lapply(usercsvList, read.csv))

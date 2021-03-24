@@ -8,8 +8,12 @@ options(mysql = db_cred)
 
 db <- db_connect()
 
+#drop tables
+drop_users <- "DROP TABLE users"
+drop_orders <- "DROP TABLE orders"
+
 #create users tbl
-query_users <- "CREATE TABLE users
+create_users <- "CREATE TABLE users
 (
   id INT AUTO_INCREMENT PRIMARY KEY,
   ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -19,7 +23,7 @@ query_users <- "CREATE TABLE users
 "
 
 #create orders tbl
-query_orders <- "CREATE TABLE orders
+create_orders <- "CREATE TABLE orders
 (
   id INT AUTO_INCREMENT PRIMARY KEY,
   ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -28,8 +32,11 @@ query_orders <- "CREATE TABLE orders
   q INT NOT NULL
 )
 "
-dbGetQuery(db, query_users)
 
-dbGetQuery(db, query_orders)
+dbGetQuery(db, drop_users)
+dbGetQuery(db, drop_orders)
+
+dbGetQuery(db, create_users)
+dbGetQuery(db, create_orders)
 
 dbDisconnect(db)

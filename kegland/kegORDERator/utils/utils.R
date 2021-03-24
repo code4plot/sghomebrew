@@ -1,4 +1,5 @@
 source("utils/parameters.R")
+source("utils/data_handler.R")
 
 #function to compile multiple .csv files from dirName.
 #returns a tibble of compiled table. All col_types default to character
@@ -33,7 +34,6 @@ csv_order <- function(fileName, df){
   } else {
     write.csv(df, fileName, row.names = F)
   }
-  #csv_compile_order()
 }
 
 get_individual_order <- function(name){
@@ -66,18 +66,11 @@ get_csv_order <- function(name){
   return(tbl)
 }
 
-#a function to compile all orders to a file
-#this function is no longer called by csv_order
-csv_compile_order <- function(){
-  #read orders/*.csv file
-  ordercsvList <- list.files(response_order, "*.csv", full.names = T)
-  ordercsv <- dplyr::bind_rows(lapply(ordercsvList, read.csv))
-  write.csv(ordercsv, order_file, row.names = F)
-}
 
 #function to assign small, medium or large price break
 #on all orders by aggregating the q for each klid
 get_sml <- function(){
+  priceList <- get_priceList()
   ordercsv <- loadAllOrders()
   #ordercsv <- get_csvs(response_order)
   ordercsv <- mutate_at(ordercsv, vars(q), as.integer)
@@ -112,6 +105,7 @@ get_pricebreak_vec <- Vectorize(get_pricebreak)
 
 #function to output a catalog table to renderDT() in app.R
 get_catalog <- function(){
+  priceList <- get_priceList()
   tbl <- dplyr::select(priceList, klid, klname, smallprice)
   return(tbl)
 }
